@@ -14,20 +14,14 @@ import org.testng.annotations.*;
 
 public class BaseTest {
 //    protected WebDriver delegate;
-//    protected SelfHealingDriver driver;
-	protected WebDriver driver;
+    protected SelfHealingDriver driver;
+	protected WebDriver delegate;
     @BeforeClass
     public void setup() throws IOException {
     	
-    	Properties properties = new Properties();
-    	InputStream input = new FileInputStream("src/main/resources/healenium.properties");
-    	properties.load(input);
-    	boolean flag = Boolean.parseBoolean(properties.getProperty("heal-enabled","true"));
-    	
     	WebDriverManager.chromedriver().setup();
-    	driver = new ChromeDriver();    	
-    	if(flag)
-    	driver = SelfHealingDriver.create(driver);    
+    	delegate = new ChromeDriver();    	
+    	driver = SelfHealingDriver.create(delegate);    
     }
 
     @AfterClass

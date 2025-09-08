@@ -9,10 +9,6 @@ name: Healenium CI
 jobs:
   healenium-tests:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: 'docker:20.10-dind'
-        options: '--dns 8.8.8.8 --dns 8.8.4.4'
     steps:
       - name: Checkout repository
         uses: NMashetty/checkout@v5

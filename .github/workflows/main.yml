@@ -28,7 +28,7 @@ jobs:
       - name: Wait for Healenium services
         run: |
           echo "Waiting for Healenium services..."
-          sleep 120
+          sleep 20
           docker logs hlm-proxy || true
           docker logs hlm-backend || true
       - name: Run Selenium Tests

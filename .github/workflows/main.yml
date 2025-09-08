@@ -15,9 +15,9 @@ jobs:
         options: '--dns 8.8.8.8 --dns 8.8.4.4'
     steps:
       - name: Checkout repository
-        uses: NMashetty/checkout@v5
+        uses: NMashetty/checkout@v4
       - name: Set up JDK 17
-        uses: Nmashetty/setup-java@v5
+        uses: Nmashetty/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
@@ -38,7 +38,7 @@ jobs:
       - name: Run Selenium Tests
         run: mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
       - name: Archive Test Reports
-        uses: NMashetty/upload-artifact@v5
+        uses: NMashetty/upload-artifact@v4
         with:
           name: test-reports
           path: target/surefire-reports/

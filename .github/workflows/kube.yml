@@ -1,0 +1,51 @@
+name: Deploy Healenium to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up kubeconfig
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: latest
+
+      - name: Clone Healenium Helm Chart
+        run: |
+          git clone https://github.com/healenium/kubernetes.git healenium-chart
+
+      - name: Deploy Healenium via local Helm chart
+        run: |
+          helm upgrade --install healenium healenium-chart \
+            -f healenium-chart/values.yaml \
+            -n healenium --create-namespace
+
+      - name: Verify Deployment
+        run: |
+          kubectl get pods -n healenium
+          kubectl rollout status deployment/hlm-backend -n healenium
+          kubectl rollout status deployment/hlm-proxy -n healenium
+
+      - name: Get Healenium Endpoint
+        run: |
+          INGRESS_HOST=$(kubectl get ingress -n healenium -o jsonpath='{.items[0].status.loadBalancer.ingress[0].hostname}' || true)
+          INGRESS_IP=$(kubectl get ingress -n healenium -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}' || true)
+          if [ -n "$INGRESS_HOST" ]; then
+            echo "Healenium URL: http://$INGRESS_HOST"
+          else
+            echo "Healenium URL: http://$INGRESS_IP"
+          fi

@@ -32,7 +32,7 @@ jobs:
       # Pull from Docker Hub, tag, and push to GHCR
       - name: Mirror image
         run: |
-          VERSION=3.3.1
+          VERSION=2.1.8
           IMAGE_NAME=healenium-proxy
           GHCR_REPO=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:$VERSION
 

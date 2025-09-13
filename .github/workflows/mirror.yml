@@ -35,7 +35,9 @@ jobs:
           VERSION=2.1.8
           IMAGE_NAME=hlm-proxy
           DOCKERHUB_REPO=healenium/$IMAGE_NAME
-          GHCR_REPO=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:$VERSION
+          OWNER=nmashetty
+          GHCR_REPO=ghcr.io/$OWNER/$IMAGE_NAME:$VERSION
+          
 
           docker pull $DOCKERHUB_REPO:$VERSION
           docker tag $DOCKERHUB_REPO:$VERSION $GHCR_REPO

@@ -33,7 +33,7 @@ jobs:
       - name: Mirror image
         run: |
           VERSION=2.1.8
-          IMAGE_NAME=healenium-proxy
+          IMAGE_NAME=healenium/hlm-proxy
           GHCR_REPO=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:$VERSION
 
           docker pull healenium/proxy:$VERSION
